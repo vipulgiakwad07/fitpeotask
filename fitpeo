@@ -1,0 +1,189 @@
+package selenium;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+
+import java.util.List;
+import java.util.Set;
+
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
+
+
+public class Test {
+	public static void main(String[] args) throws InterruptedException {
+		
+
+        // Set the path of the ChromeDriver executable
+        System.setProperty("webdriver.chrome.driver", "E:\\\\VIpul\\\\SBI PREPRATION\\\\MY DOCS\\\\Testing\\\\Software\\\\chromedriver-win32\\\\chromedriver.exe");
+
+        // Create ChromeDriver with JavaScript enabled
+        ChromeOptions options = new ChromeOptions();
+        options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
+        WebDriver driver = new ChromeDriver(options);
+
+        // Open the Flipkart website
+        driver.get("https://www.flipkart.com");
+        // Verify that the homepage loads successfully
+      WebElement logo = driver.findElement(By.xpath("//img[@title='Flipkart']"));
+      WebElement searchBar = driver.findElement(By.name("q"));
+
+      // Check if the logo and search bar elements are displayed
+      if (logo.isDisplayed() && searchBar.isDisplayed()) {
+          System.out.println("Homepage loaded successfully.");
+      } else {
+          System.out.println("Homepage failed to load.");
+      }
+      System.out.println("test 1");
+      searchBar.sendKeys("LAPTOP");
+      searchBar.sendKeys(Keys.ENTER);
+      System.out.println("test 2");
+      // Wait for search results to load
+      Thread.sleep(1000); // Adjust the wait time as needed
+
+      System.out.println("test 3");
+      // Wait for the product details page to load
+      Thread.sleep(1000); // Adjust the wait time as needed
+ 
+   // Scroll to the element to make it visible
+      Actions actions = new Actions(driver);
+   //   actions.moveToElement(firstSearchResult);
+      actions.perform();
+      System.out.println("test 4");
+ 
+      Thread.sleep(5000);
+ 
+      // Click on one of the search results
+      WebElement firstSearchResult = driver.findElement(By.xpath("(//div[@class='_4rR01T'])[1]"));
+      firstSearchResult.click();
+      
+      System.out.println("test 5");
+
+        // Wait for the page to load
+        try {
+            Thread.sleep(1000); // Wait for 5 seconds (adjust as needed)
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("test 6");
+        // Execute JavaScript to click on "Add to Cart" button
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+       
+        System.out.println("test 7");
+
+        System.out.println("test 8");
+        Thread.sleep(1000);
+
+       
+       Set<String> h 	=driver.getWindowHandles();
+       System.out.println(h);
+        
+       for(String string : h) {
+    	   driver.switchTo().window(string);
+       }
+       
+     List<WebElement>products=driver.findElements(By.className("_21Ahn-"));
+     System.out.println(products.size());
+     for(WebElement product: products) {
+     	 System.out.println(product.getText());
+     }
+     
+  // Find all elements on the page
+     System.out.println("anther tab");
+       WebDriverWait wait = new WebDriverWait(driver, 300);
+       String winHandleBefore = driver.getWindowHandle();
+       for(String winHandle : driver.getWindowHandles()){
+          driver.switchTo().window(winHandle);
+       }
+       
+       
+       Thread.sleep(5000);
+       try {
+        
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@class='_2KpZ6l _2U9uOA _3v1-ww']"))).click();
+       } catch (Exception e) {
+         System.out.println("Error occurred while clicking : " + e.getMessage());
+         e.printStackTrace();
+       }
+        System.out.println("test 9");
+
+        // Proceed to checkout
+        try {
+
+        	  wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@class='_2KpZ6l _20xBvF _3AWRsL']"))).click();
+           } catch (Exception e) {
+             System.out.println("Error occurred while clicking : " + e.getMessage());
+             e.printStackTrace();
+           }
+
+    	// Locate the input field for the email address and fill it with the email
+     try {
+    	 
+         WebElement emailInput = driver.findElement(By.xpath("//Input[@class='_2IX_2- _17N0em']")); 
+         emailInput.sendKeys("vipulgaikwad001@gmail.com");
+
+         // Locate and click on the continue button
+         
+         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@class='_2KpZ6l _2ObVJD _3AWRsL']"))).click();
+       
+           } catch (Exception e) {
+             System.out.println("Error occurred while clicking : " + e.getMessage());
+             e.printStackTrace();
+           }
+  
+        // User Authentication
+        // Enter valid credentials (replace 'your_username' and 'your_password' with actual values)
+        WebElement usernameInput = driver.findElement(By.xpath("//input[@class='_2IX_2- VJZDxU']"));
+        WebElement passwordInput = driver.findElement(By.xpath("//input[@class='_2IX_2- _3mctLh VJZDxU']"));
+        WebElement loginButton = driver.findElement(By.xpath("//button[@class='_2KpZ6l _2HKlqd _3AWRsL']"));
+
+        usernameInput.sendKeys("your_username");
+        passwordInput.sendKeys("your_password");
+        loginButton.click();
+
+        // Wait for user to be logged in
+        wait.until(ExpectedConditions.urlContains("https://www.flipkart.com"));
+
+        // Shipping Information
+        WebElement addressInput = driver.findElement(By.xpath("//input[@name='name']"));
+        WebElement cityInput = driver.findElement(By.xpath("//input[@name='phone']"));
+        WebElement stateInput = driver.findElement(By.xpath("//input[@name='pincode']"));
+        WebElement zipCodeInput = driver.findElement(By.xpath("//input[@name='email']"));
+
+        // Enter shipping information
+        addressInput.sendKeys("Your Address");
+        cityInput.sendKeys("Your City");
+        stateInput.sendKeys("Your State");
+        zipCodeInput.sendKeys("Your Zip Code");
+
+        // Proceed to next step
+        WebElement continueButton = driver.findElement(By.xpath("//button[contains(text(),'CONTINUE')]"));
+        continueButton.click();
+
+        // Choose a payment method
+        // Select credit card (assuming credit card option is available)
+        WebElement creditCardOption = driver.findElement(By.xpath("//input[@value='credit_card']"));
+        creditCardOption.click();
+
+        // Verify the order summary (add verification logic if needed)
+
+        System.out.println("test 10"); 
+        
+        // Close the browser
+        driver.quit();
+    }
+
+//	private static FluentWait<WebDriver> WebDriverWait(WebDriver driver, int i) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+}
+
