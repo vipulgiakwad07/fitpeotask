@@ -23,7 +23,7 @@ public class Test {
 		
 
         // Set the path of the ChromeDriver executable
-        System.setProperty("webdriver.chrome.driver", "E:\\\\VIpul\\\\SBI PREPRATION\\\\MY DOCS\\\\Testing\\\\Software\\\\chromedriver-win32\\\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "chrome driver PATH");
 
         // Create ChromeDriver with JavaScript enabled
         ChromeOptions options = new ChromeOptions();
